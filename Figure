@@ -15,43 +15,50 @@ tan = f1(a)+f1prime*(c-a)  # tangent
 plt.plot(k , f1(k), label ='f(x)',color= 'black') #plot function
 plt.plot(c ,tan, color = 'grey' ) #plot tangent
 
+def tan(q):
+    return f1(a)+f1prime *(q-a)
 
 
 #the red norm. distr. is created
-j_min = 0.5
-j_max = 2.0
-mean = 1.25 
-std = 0.3
-j = np.linspace(j_min, j_max, 100)
-i = (scipy.stats.norm.pdf(j,mean,std))*1/2
+def ydistr(j_min,j_max,mean,std):
+#j_min = 0.5
+#j_max = 2.0
+#mean = 1.25 
+#std = 0.3
+    j = np.linspace(j_min, j_max, 100)
+    i = (scipy.stats.norm.pdf(j,mean,std))*1/2
 
-plt.plot(j,i, color='red')# plot red norm. distr.
-shade1 = np.linspace(mean - std, mean + std, 300)
-plt.fill_between(shade1, (scipy.stats.norm.pdf(shade1,mean,std))*1/2 , color='hotpink',)# fill area below red norm.distr.
-
+    plt.plot(j,i, color='red')# plot red norm. distr.
+    shade1 = np.linspace(mean - std, mean + std, 300)
+    plt.fill_between(shade1, (scipy.stats.norm.pdf(shade1,mean,std))*1/2 , color='hotpink',)# fill area below red norm.distr.
+    plt.plot([0, mean],[f1(mean), f1(mean)], color ='grey') #normal lines
+    plt.plot([mean -std,mean -std],[0, f1(mean-std)],':', color = 'grey') #dotted lines
+    plt.plot([mean + std,mean + std],[0, tan(mean+std)],':', color = 'grey')
+    return
 #green norm. distr. is created
-f_min = 0.5
-f_max = 2.0
-mean2 = 1.25
-std2 = 0.3
-l = np.linspace(f_min, f_max, 300)
-m = scipy.stats.norm.pdf(l,mean2,std2)*1/3
- 
+def xdistr(f_min,f_max,mean2,std2):
+#f_min = 0.5
+#f_max = 2.0
+#mean2 = 1.25
+#std2 = 0.3
+    l = np.linspace(f_min, f_max, 300)
+    m = scipy.stats.norm.pdf(l,mean2,std2)*1/3
+    plt.plot(m,l, color='green') #plot green norm. distr.
+    shade2 = np.linspace(tan(mean2-std2), tan(mean2+std2), 300) #fill area below green norm. distr.
+    plt.fill_betweenx(shade2 ,(scipy.stats.norm.pdf(shade2,mean2,std2))*1/3, color='lightgreen')
+    plt.plot([mean2,mean2],[0, tan(mean2)],color = 'grey')#plot normal lines
+    plt.plot([0,mean2+std2],[tan(mean2+std2), tan(mean2+std2)],':', color = 'grey')#plot dotted lines
+    plt.plot([0,mean2-std2],[tan(mean2-std2), tan(mean2-std2)],':', color = 'grey')
+    return
 
-plt.plot(m,l, color='green') #plot green norm. distr.
-
-shade2 = np.linspace(0.98, 1.49, 300) #fill area below green norm. distr.
-plt.fill_betweenx(shade2 ,(scipy.stats.norm.pdf(shade2,mean2,std2))*1/3, color='lightgreen')
 
 
-#the lines are created
-plt.plot([1.25,1.25],[0, 1.2363],color = 'grey') #plot normal lines
-plt.plot([0, 1.25],[1.2363, 1.2363], color ='grey')
-plt.plot([mean -std,mean -std],[0, 0.98],':', color = 'grey') #dotted lines
-plt.plot([mean + std,mean + std],[0, 1.49],':', color = 'grey')
-plt.plot([0,mean-std],[0.98, 0.98],':', color = 'grey')#plot dotted lines
-plt.plot([0,mean+std],[1.49, 1.49],':', color = 'grey')
+
+
+
 
 plt.gca().axes.get_yaxis().set_visible(False) #hide axis values
 plt.gca().axes.get_xaxis().set_visible(False)
-plt.savefig('FigureonUncertainty')
+xdistr(0.5,2.0,1.25,0.3)
+ydistr(0.5,2.0,1.25,0.3)
+plt.savefig('FigureonUncertainty.pdf')
