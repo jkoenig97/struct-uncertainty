@@ -1,0 +1,41 @@
+import numpy as np
+import scipy.stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+ 
+#Endogenous code where only function and parameters have to be defined, estimates the parameters from the drawn distribution just as middle of the chosen range of the function
+#the code can be used for any given function, but for useful results one might have to scale certain parameters (range of y-axis, the std and range of function and width)
+
+fig, axs = plt.subplots() #create plot
+plt.ylim((0,2.5))#specify range of plotted y-axis to scale properly
+#specify function with demanded properties, example found with polynomial interpolation
+def f1(x):#define function
+    return (68.00000000000006-207.7500000000002*(x+0.75)**1+245.1666666666669*(x+0.75)**2-139.7333333333335*(x+0.75)**3+38.93333333333338*(x+0.75)**4-4.266666666666672*(x+0.75)**5) #used function
+
+
+def distr(j_min,j_max,width):
+    #set parameters and plot function
+    j = np.linspace(j_min, j_max, 100) #define x-axis values
+    mean =(j_min+j_max)/2 #use as mean for the drawn normal distributions for the x-axis the middle of the range 
+    std= mean/4 #
+    std2 =mean/8
+    plt.plot(j , f1(j), label ='f(x)',color= 'black')#plot specified function in specified range
+    
+    #red distribution
+    i = (scipy.stats.norm.pdf(j,mean,std))*0.6 #use norm distribution to get values for red distr.
+    plt.plot(j,i, color='red') #plot red norm. distr.
+    shade1 = np.linspace(mean - std, mean + std, 300) #define shaded areas
+    plt.fill_between(j, (scipy.stats.norm.pdf(j,mean,std))*0.6 , color='salmon',)# fill area below red norm.distr.
+    
+    #green distribution, therefore we draw normal distributions samples used for x and use them to calculate the distribution of f(x)
+    f = (np.random.normal(mean, std2 , size=10000000)) #draw norm samples for x in the range of the visualised function with set parameters
+    sns.kdeplot(f1(f), bw= width, shade= True,vertical = True, color = 'green' ), #plot green distribution using the defined function , with bw one can vary the plot (only appealing with results between 0.5 and 0.7)
+    return
+
+
+
+plt.gca().axes.get_yaxis().set_visible(False) #hide axis values
+plt.gca().axes.get_xaxis().set_visible(False)
+distr(0.4,1.4,0.55) #call and plot the distributions with parameters
+plt.savefig('FigureonUncertainty.pdf') #save plot 
+plt.savefig('FigureonUncertainty')
