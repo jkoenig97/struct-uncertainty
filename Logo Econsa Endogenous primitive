@@ -29,7 +29,7 @@ def distr(j_min,j_max,width):
     
     #green distribution, therefore we draw normal distributions samples used for x and use them to calculate the distribution of f(x)
     f = (np.random.normal(mean, std2 , size=10000000)) #draw norm samples for x in the range of the visualised function with set parameters
-    sns.kdeplot(f1(f), bw= width, shade= True,vertical = True, color = 'green' ), #plot green distribution using the defined function , with bw one can vary the plot (only appealing with results between 0.5 and 0.7)
+    sns.kdeplot(f1(f), bw= width, shade= True,vertical = True, color = 'green' ), #plot green distribution with kde using the defined function , with bw one can vary the plot (in example only appealing with results between 0.5 and 0.7)
     return
 
 
