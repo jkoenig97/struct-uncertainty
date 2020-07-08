@@ -12,7 +12,7 @@ plt.ylim((0,2.5))#specify range of plotted y-axis to scale properly
 def f1(x):#define function
     return (68.00000000000006-207.7500000000002*(x+0.75)**1+245.1666666666669*(x+0.75)**2-139.7333333333335*(x+0.75)**3+38.93333333333338*(x+0.75)**4-4.266666666666672*(x+0.75)**5) #used function
 
-
+#function to use given parameters to create plot with functiion and distribution on x and y-axis
 def distr(j_min,j_max,width):
     #set parameters and plot function
     j = np.linspace(j_min, j_max, 100) #define x-axis values
