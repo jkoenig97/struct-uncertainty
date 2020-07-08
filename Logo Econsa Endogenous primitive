@@ -17,7 +17,7 @@ def distr(j_min,j_max,width):
     #set parameters and plot function
     j = np.linspace(j_min, j_max, 100) #define x-axis values
     mean =(j_min+j_max)/2 #use as mean for the drawn normal distributions for the x-axis the middle of the range 
-    std= mean/4 #
+    std= mean/4 #only rule of thumbs for the stds
     std2 =mean/8
     plt.plot(j , f1(j), label ='f(x)',color= 'black')#plot specified function in specified range
     
