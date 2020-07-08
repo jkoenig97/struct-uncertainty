@@ -3,30 +3,32 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+#code for logo, whereas the function was found with a polynomial interpolation and the parameters where chosen to give a proper scaled plot
+#this code can be used to create within less than five minutes a similar plot, where the most time is needed for proper scaling
 
-#create plot
-fig, axs = plt.subplots()
-plt.ylim((0,2.5))
-#define function with demanded properties, found with polynomial interpolation
-k = np.linspace(0.35, 1.225,10000000)# define linespace
+
+fig, axs = plt.subplots()#create plot
+plt.ylim((0,2.5))#specify range of plotted y-axis to scale properly
+k = np.linspace(0.35, 1.225,10000000)# define linespace in which function is plotted
+#specify function with demanded properties, example found with polynomial interpolation
 def f1(x):#define function
     return (68.00000000000006-207.7500000000002*(x+0.75)**1+245.1666666666669*(x+0.75)**2-139.7333333333335*(x+0.75)**3+38.93333333333338*(x+0.75)**4-4.266666666666672*(x+0.75)**5) #used function
 plt.plot(k , f1(k), label ='f(x)',color= 'black') #plot function
 
 
 
-#the distributions are created
+#functions to create and plot the distributions
 def distr(j_min,j_max,mean,std, std2, width):
     #red distribution
     j = np.linspace(j_min, j_max, 100) #define x-axis values
-    i = (scipy.stats.norm.pdf(j,mean,std))*0.6 #use norm distribution
+    i = (scipy.stats.norm.pdf(j,mean,std))*0.6 #use norm distribution to get values for red distr.
     plt.plot(j,i, color='red') #plot red norm. distr.
     shade1 = np.linspace(mean - std, mean + std, 300) #define shaded areas
     plt.fill_between(j, (scipy.stats.norm.pdf(j,mean,std))*0.6 , color='salmon',)# fill area below red norm.distr.
     
-    #green distribution
-    f = (np.random.normal(mean, std2 , size=10000000)) #draw norm samples for x in the range of the visualised function
-    sns.kdeplot(f1(f), bw= width, shade= True,vertical = True, color = 'green' ), #plot green distribution, with bw one can vary the plot (only appealing with results between 0.5 and 0.7)
+    #green distribution, therefore we draw normal distributions samples used for x and use them to calculate the distribution of f(x)
+    f = (np.random.normal(mean, std2 , size=10000000)) #draw norm samples for x in the range of the visualised function with given parameters
+    sns.kdeplot(f1(f), bw= width, shade= True,vertical = True, color = 'green' ), #plot green distribution with kde using the defined function , with bw one can vary the plot (in example only appealing with results between 0.5 and 0.7)
     return
 
 
