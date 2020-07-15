@@ -23,7 +23,6 @@ def distr(j_min,j_max,mean,std, std2, width):
     j = np.linspace(j_min, j_max, 100) #define x-axis values
     i = (scipy.stats.norm.pdf(j,mean,std))*0.6 #use norm distribution to get values for red distr.
     plt.plot(j,i, color='red') #plot red norm. distr.
-    shade1 = np.linspace(mean - std, mean + std, 300) #define shaded areas
     plt.fill_between(j, (scipy.stats.norm.pdf(j,mean,std))*0.6 , color='salmon',)# fill area below red norm.distr.
     
     #green distribution, therefore we draw normal distributions samples used for x and use them to calculate the distribution of f(x)
